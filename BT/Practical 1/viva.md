@@ -73,3 +73,106 @@ spent, subject to any balance changes from other transactions.
 ### 18. What is the conclusion of this practical?
 MetaMask was installed and used with a test network to study an Ethereum account,
 Ether, smart-contract interaction, and transaction fees.
+
+## Smart Contract Code Explanation
+
+The following `SimpleStorage` contract is written in Solidity:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract SimpleStorage {
+    uint256 private storedValue;
+
+    function setValue(uint256 value) public {
+        storedValue = value;
+    }
+
+    function getValue() public view returns (uint256) {
+        return storedValue;
+    }
+}
+```
+
+### 1. License declaration
+
+```solidity
+// SPDX-License-Identifier: MIT
+```
+
+This identifies the license under which the contract code is released. It also removes
+the license warning shown by Remix.
+
+### 2. Solidity version
+
+```solidity
+pragma solidity ^0.8.20;
+```
+
+This tells the compiler to use Solidity version `0.8.20` or a compatible later `0.8.x`
+version. The caret (`^`) allows compatible compiler updates within the 0.8 release
+series.
+
+### 3. Contract declaration
+
+```solidity
+contract SimpleStorage {
+```
+
+This creates a smart contract named `SimpleStorage`. A contract is similar to a class
+that contains data and functions, but it is deployed and executed on the blockchain.
+
+### 4. Stored variable
+
+```solidity
+uint256 private storedValue;
+```
+
+This declares an unsigned 256-bit integer named `storedValue`.
+
+- `uint256` stores a non-negative whole number.
+- `private` means the variable is accessed directly only inside this contract.
+- The default value is `0`.
+
+### 5. Updating the value
+
+```solidity
+function setValue(uint256 value) public {
+    storedValue = value;
+}
+```
+
+The `setValue` function accepts a number and stores it in `storedValue`.
+
+- `function` declares a function.
+- `setValue` is the function name.
+- `uint256 value` is the input parameter.
+- `public` allows external users and applications to call the function.
+
+Calling `setValue(25)` changes blockchain state. Therefore, MetaMask asks for approval
+and a transaction fee is charged.
+
+### 6. Reading the value
+
+```solidity
+function getValue() public view returns (uint256) {
+    return storedValue;
+}
+```
+
+The `getValue` function returns the current value of `storedValue`.
+
+- `view` means the function only reads blockchain data.
+- `returns (uint256)` specifies that the function returns an unsigned integer.
+- `return storedValue` sends the stored value back to the caller.
+
+Calling `getValue` does not change blockchain state, so it normally does not require a
+MetaMask approval or gas fee when called from Remix.
+
+### 7. Gas behavior in this practical
+
+- Deploying `SimpleStorage` stores the contract on Sepolia and costs gas.
+- Calling `setValue(25)` changes the stored value and costs gas.
+- Calling `getValue()` only reads the value and normally costs no gas.
+- The transaction fee can be checked in MetaMask or on a Sepolia block explorer.
