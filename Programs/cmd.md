@@ -8,85 +8,13 @@ created.
 
 ## Interactive help and download menu
 
-The menu script runs in Bash. It works on Ubuntu/Linux, WSL, and Git Bash.
-GitHub hosts the script; it does not execute it.
+### Ubuntu/Linux
 
-Download the menu script:
+Download the Bash menu:
 
 ```bash
 curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.sh" -o "lp3-programs.sh"
 ```
-
-On Windows CMD or PowerShell, download it with `curl.exe`:
-
-```bat
-curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.sh" -o "lp3-programs.sh"
-```
-
-If Bash is unavailable, use the native Windows PowerShell menu:
-
-```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.ps1" -OutFile "lp3-programs.ps1"
-```
-
-Show PowerShell menu help:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 help
-```
-
-Download one file with the PowerShell menu:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download ml diabetes
-```
-
-Run the following menu commands in Ubuntu/Linux, WSL, or Git Bash. Normal
-Windows CMD and PowerShell can download the file, but cannot run `.sh` scripts
-directly.
-
-### Set up WSL on Windows
-
-Check whether WSL is available:
-
-```bat
-wsl --status
-```
-
-List installed Linux distributions:
-
-```bat
-wsl -l -v
-```
-
-If Ubuntu is not installed, open PowerShell as Administrator:
-
-```bat
-wsl --install -d Ubuntu
-```
-
-Restart Windows if requested. On the first Ubuntu launch, create a Linux
-username and password.
-
-From Windows CMD, run the downloaded menu script through WSL:
-
-```bat
-wsl bash lp3-programs.sh help
-```
-
-Download one selected program through WSL:
-
-```bat
-wsl bash lp3-programs.sh download daa quicksort
-```
-
-Run the Fabric script through WSL:
-
-```bat
-wsl bash BT/setup-fabric.sh
-```
-
-Fabric should run inside Ubuntu/WSL with Docker available.
 
 Make it executable:
 
@@ -94,13 +22,7 @@ Make it executable:
 chmod +x lp3-programs.sh
 ```
 
-If Bash does not allow executable permissions, use:
-
-```bash
-bash lp3-programs.sh help
-```
-
-Show the help menu:
+Show help:
 
 ```bash
 ./lp3-programs.sh help
@@ -112,35 +34,98 @@ List available programs:
 ./lp3-programs.sh list
 ```
 
-Download only the BT `Bank.sol` program:
+Download selected programs:
 
 ```bash
 ./lp3-programs.sh download bt bank
 ```
 
-Download only the DAA `quicksort.cpp` program:
-
 ```bash
 ./lp3-programs.sh download daa quicksort
 ```
-
-Download only the ML Diabetes notebook:
 
 ```bash
 ./lp3-programs.sh download ml diabetes
 ```
 
-Download all BT, DAA, and ML programs:
+Download everything:
 
 ```bash
 ./lp3-programs.sh download all
 ```
 
-Files are saved inside `./LP-3-Programs` by default. To choose another folder:
+Files are saved inside `./LP-3-Programs` by default. Choose another folder with:
 
 ```bash
 LP3_OUTPUT_DIR=./my-programs ./lp3-programs.sh download daa fibonacci
 ```
+
+### Windows PowerShell or CMD
+
+The PowerShell menu works without Bash, WSL, or Git Bash.
+
+Download the PowerShell menu:
+
+```powershell
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.ps1" -o "lp3-programs.ps1"
+```
+
+Show help:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 help
+```
+
+List available programs:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 list
+```
+
+Download selected programs:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download bt bank
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download daa quicksort
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download ml diabetes
+```
+
+Download everything:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download all
+```
+
+### Windows WSL or Git Bash
+
+Use this only when you want to run the Bash menu on Windows. Install Ubuntu
+through WSL or open Git Bash, then follow the Ubuntu/Linux section above.
+
+Check WSL:
+
+```bat
+wsl --status
+```
+
+Install Ubuntu if needed from Administrator PowerShell:
+
+```bat
+wsl --install -d Ubuntu
+```
+
+Run the Bash menu from Windows CMD:
+
+```bat
+wsl bash lp3-programs.sh help
+```
+
+The Fabric script should run inside Ubuntu/WSL with Docker available.
 
 ## Common command templates
 
@@ -161,7 +146,7 @@ curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/
 ### Download a file on Windows PowerShell
 
 ```powershell
-Invoke-WebRequest -Uri "RAW_GITHUB_URL" -OutFile "LOCAL_FOLDER\FILE_NAME"
+curl.exe -fL "RAW_GITHUB_URL" -o "LOCAL_FOLDER\FILE_NAME"
 ```
 
 ### Download a file on Ubuntu/Linux
@@ -310,55 +295,55 @@ New-Item -ItemType Directory -Force BT, DAA
 Download `SimpleStorage.sol`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/BT/SimpleStorage.sol" -OutFile "BT\SimpleStorage.sol"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/BT/SimpleStorage.sol" -o "BT\SimpleStorage.sol"
 ```
 
 Download `Bank.sol`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/BT/Bank.sol" -OutFile "BT\Bank.sol"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/BT/Bank.sol" -o "BT\Bank.sol"
 ```
 
 Download `StudentRegistry.sol`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/BT/StudentRegistry.sol" -OutFile "BT\StudentRegistry.sol"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/BT/StudentRegistry.sol" -o "BT\StudentRegistry.sol"
 ```
 
 Download the Fabric setup script:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/BT/setup-fabric.sh" -OutFile "BT\setup-fabric.sh"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/BT/setup-fabric.sh" -o "BT\setup-fabric.sh"
 ```
 
 Download `fibonacci.cpp`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/fibonacci.cpp" -OutFile "DAA\fibonacci.cpp"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/fibonacci.cpp" -o "DAA\fibonacci.cpp"
 ```
 
 Download `huffman.cpp`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/huffman.cpp" -OutFile "DAA\huffman.cpp"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/huffman.cpp" -o "DAA\huffman.cpp"
 ```
 
 Download `knapsack.cpp`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/knapsack.cpp" -OutFile "DAA\knapsack.cpp"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/knapsack.cpp" -o "DAA\knapsack.cpp"
 ```
 
 Download `nqueens.cpp`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/nqueens.cpp" -OutFile "DAA\nqueens.cpp"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/nqueens.cpp" -o "DAA\nqueens.cpp"
 ```
 
 Download `quicksort.cpp`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/quicksort.cpp" -OutFile "DAA\quicksort.cpp"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/quicksort.cpp" -o "DAA\quicksort.cpp"
 ```
 
 ## Download files on Ubuntu/Linux
@@ -478,31 +463,31 @@ New-Item -ItemType Directory -Force ML
 Download `ML_1_UBER.ipynb`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_1_UBER.ipynb" -OutFile "ML\ML_1_UBER.ipynb"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_1_UBER.ipynb" -o "ML\ML_1_UBER.ipynb"
 ```
 
 Download `ML_2_EMAIL_SPAM.ipynb`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_2_EMAIL_SPAM.ipynb" -OutFile "ML\ML_2_EMAIL_SPAM.ipynb"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_2_EMAIL_SPAM.ipynb" -o "ML\ML_2_EMAIL_SPAM.ipynb"
 ```
 
 Download `ML_3_BANK_CHURN.ipynb`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_3_BANK_CHURN.ipynb" -OutFile "ML\ML_3_BANK_CHURN.ipynb"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_3_BANK_CHURN.ipynb" -o "ML\ML_3_BANK_CHURN.ipynb"
 ```
 
 Download `ML_5_DIABETES.ipynb`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_5_DIABETES.ipynb" -OutFile "ML\ML_5_DIABETES.ipynb"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_5_DIABETES.ipynb" -o "ML\ML_5_DIABETES.ipynb"
 ```
 
 Download `ML_6_SALES.ipynb`:
 
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_6_SALES.ipynb" -OutFile "ML\ML_6_SALES.ipynb"
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_6_SALES.ipynb" -o "ML\ML_6_SALES.ipynb"
 ```
 
 ## Download ML notebooks on Ubuntu/Linux

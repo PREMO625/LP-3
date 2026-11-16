@@ -36,67 +36,36 @@ nothing is moved by the downloader.
 
 ## Quick start: the main menu
 
-The menu script runs in Bash. It works on Ubuntu/Linux, WSL, and Git Bash. It
-downloads files directly from GitHub, so Git, GitHub Desktop, and a GitHub
-account are not required.
+### Ubuntu/Linux
 
-### 1. Download the menu
+The Bash menu downloads files directly from GitHub. Git, GitHub Desktop, and a
+GitHub account are not required.
+
+Download the menu:
 
 ```bash
 curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.sh" -o lp3-programs.sh
 ```
 
-On Windows CMD or PowerShell, download it with `curl.exe`:
-
-```bat
-curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.sh" -o lp3-programs.sh
-```
-
-The `.sh` file cannot run directly in normal Windows CMD or PowerShell. Use
-Ubuntu/Linux, WSL, or Git Bash for the next steps.
-
-Windows users who do not have Bash can use the native PowerShell menu instead:
-
-```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.ps1" -OutFile "lp3-programs.ps1"
-```
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 help
-```
-
-Download a selected program:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download ml diabetes
-```
-
-### 2. Make it executable
+Make it executable:
 
 ```bash
 chmod +x lp3-programs.sh
 ```
 
-### 3. Ask for help
+Show help:
 
 ```bash
 ./lp3-programs.sh help
 ```
 
-On Windows WSL or Git Bash, use the same command. If permissions are not
-available, run it through Bash:
-
-```bash
-bash lp3-programs.sh help
-```
-
-### 4. See everything available
+List programs:
 
 ```bash
 ./lp3-programs.sh list
 ```
 
-### 5. Download only what you need
+Download selected programs:
 
 ```bash
 ./lp3-programs.sh download bt bank
@@ -110,25 +79,67 @@ bash lp3-programs.sh help
 ./lp3-programs.sh download ml diabetes
 ```
 
-Downloaded files go to `./LP-3-Programs/` by default.
-
-Run program commands from inside that folder:
-
-```bash
-cd LP-3-Programs
-```
-
-### Download all programs
+Download everything:
 
 ```bash
 ./lp3-programs.sh download all
 ```
 
-### Choose another output folder
+Downloaded files go to `./LP-3-Programs/` by default.
+
+Choose another output folder:
 
 ```bash
 LP3_OUTPUT_DIR=./my-programs ./lp3-programs.sh download ml sales
 ```
+
+### Windows PowerShell or CMD
+
+The native PowerShell menu does not require Bash, WSL, Git, or Git Bash.
+
+Download the menu from PowerShell:
+
+```powershell
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.ps1" -o "lp3-programs.ps1"
+```
+
+Show help:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 help
+```
+
+List programs:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 list
+```
+
+Download selected programs:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download bt bank
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download daa quicksort
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download ml diabetes
+```
+
+Download everything:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download all
+```
+
+### Windows WSL or Git Bash
+
+Use this only if you specifically want to run the Bash menu on Windows.
+Install/open Ubuntu through WSL or open Git Bash, then follow the Ubuntu/Linux
+section above. Normal Windows CMD and PowerShell should use the PowerShell menu.
 
 ## How `lp3-programs.sh` works
 
