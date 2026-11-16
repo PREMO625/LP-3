@@ -1,10 +1,85 @@
-# BT and DAA commands
+# BT, DAA, and ML commands
 
 These commands download one file at a time. They do not require Git, GitHub
 Desktop, or a GitHub account.
 
 Run download commands from the folder where you want the `BT` and `DAA` folders
 created.
+
+## Interactive help and download menu
+
+The menu script runs in Bash. It works on Ubuntu/Linux, WSL, and Git Bash.
+GitHub hosts the script; it does not execute it.
+
+Download the menu script:
+
+```bash
+curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.sh" -o "lp3-programs.sh"
+```
+
+On Windows CMD or PowerShell, download it with `curl.exe`:
+
+```bat
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.sh" -o "lp3-programs.sh"
+```
+
+Run the following menu commands in Ubuntu/Linux, WSL, or Git Bash. Normal
+Windows CMD and PowerShell can download the file, but cannot run `.sh` scripts
+directly.
+
+Make it executable:
+
+```bash
+chmod +x lp3-programs.sh
+```
+
+If Bash does not allow executable permissions, use:
+
+```bash
+bash lp3-programs.sh help
+```
+
+Show the help menu:
+
+```bash
+./lp3-programs.sh help
+```
+
+List available programs:
+
+```bash
+./lp3-programs.sh list
+```
+
+Download only the BT `Bank.sol` program:
+
+```bash
+./lp3-programs.sh download bt bank
+```
+
+Download only the DAA `quicksort.cpp` program:
+
+```bash
+./lp3-programs.sh download daa quicksort
+```
+
+Download only the ML Diabetes notebook:
+
+```bash
+./lp3-programs.sh download ml diabetes
+```
+
+Download all BT, DAA, and ML programs:
+
+```bash
+./lp3-programs.sh download all
+```
+
+Files are saved inside `./LP-3-Programs` by default. To choose another folder:
+
+```bash
+LP3_OUTPUT_DIR=./my-programs ./lp3-programs.sh download daa fibonacci
+```
 
 ## Common command templates
 
@@ -74,6 +149,18 @@ py "FOLDER\FILE_NAME.py"
 
 ```bash
 python3 "FOLDER/FILE_NAME.py"
+```
+
+### Open a Jupyter notebook on Windows
+
+```bat
+py -m notebook "ML\FILE_NAME.ipynb"
+```
+
+### Open a Jupyter notebook on Ubuntu/Linux
+
+```bash
+python3 -m notebook "ML/FILE_NAME.ipynb"
 ```
 
 ### Run a shell script on Ubuntu/Linux
@@ -281,6 +368,120 @@ Download `quicksort.cpp`:
 curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/DAA/quicksort.cpp" -o "DAA/quicksort.cpp"
 ```
 
+## Download ML notebooks on Windows CMD
+
+Create the ML folder:
+
+```bat
+mkdir ML
+```
+
+Download `ML_1_UBER.ipynb`:
+
+```bat
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_1_UBER.ipynb" -o "ML\ML_1_UBER.ipynb"
+```
+
+Download `ML_2_EMAIL_SPAM.ipynb`:
+
+```bat
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_2_EMAIL_SPAM.ipynb" -o "ML\ML_2_EMAIL_SPAM.ipynb"
+```
+
+Download `ML_3_BANK_CHURN.ipynb`:
+
+```bat
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_3_BANK_CHURN.ipynb" -o "ML\ML_3_BANK_CHURN.ipynb"
+```
+
+Download `ML_5_DIABETES.ipynb`:
+
+```bat
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_5_DIABETES.ipynb" -o "ML\ML_5_DIABETES.ipynb"
+```
+
+Download `ML_6_SALES.ipynb`:
+
+```bat
+curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_6_SALES.ipynb" -o "ML\ML_6_SALES.ipynb"
+```
+
+## Download ML notebooks on Windows PowerShell
+
+Create the ML folder:
+
+```powershell
+New-Item -ItemType Directory -Force ML
+```
+
+Download `ML_1_UBER.ipynb`:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_1_UBER.ipynb" -OutFile "ML\ML_1_UBER.ipynb"
+```
+
+Download `ML_2_EMAIL_SPAM.ipynb`:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_2_EMAIL_SPAM.ipynb" -OutFile "ML\ML_2_EMAIL_SPAM.ipynb"
+```
+
+Download `ML_3_BANK_CHURN.ipynb`:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_3_BANK_CHURN.ipynb" -OutFile "ML\ML_3_BANK_CHURN.ipynb"
+```
+
+Download `ML_5_DIABETES.ipynb`:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_5_DIABETES.ipynb" -OutFile "ML\ML_5_DIABETES.ipynb"
+```
+
+Download `ML_6_SALES.ipynb`:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_6_SALES.ipynb" -OutFile "ML\ML_6_SALES.ipynb"
+```
+
+## Download ML notebooks on Ubuntu/Linux
+
+Create the ML folder:
+
+```bash
+mkdir -p ML
+```
+
+Download `ML_1_UBER.ipynb`:
+
+```bash
+curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_1_UBER.ipynb" -o "ML/ML_1_UBER.ipynb"
+```
+
+Download `ML_2_EMAIL_SPAM.ipynb`:
+
+```bash
+curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_2_EMAIL_SPAM.ipynb" -o "ML/ML_2_EMAIL_SPAM.ipynb"
+```
+
+Download `ML_3_BANK_CHURN.ipynb`:
+
+```bash
+curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_3_BANK_CHURN.ipynb" -o "ML/ML_3_BANK_CHURN.ipynb"
+```
+
+Download `ML_5_DIABETES.ipynb`:
+
+```bash
+curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_5_DIABETES.ipynb" -o "ML/ML_5_DIABETES.ipynb"
+```
+
+Download `ML_6_SALES.ipynb`:
+
+```bash
+curl -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/ML/ML_6_SALES.ipynb" -o "ML/ML_6_SALES.ipynb"
+```
+
 ## Run C++ programs on Windows
 
 Install MinGW-w64 and ensure `g++` is available in `PATH`.
@@ -432,6 +633,102 @@ python3 "DAA/5_nqueens/nqueens.py"
 
 ```bash
 python3 "DAA/6_quick sort analysis/quicksort.py"
+```
+
+## Run ML notebooks on Windows
+
+Install Jupyter Notebook:
+
+```bat
+py -m pip install notebook
+```
+
+Open `ML_1_UBER.ipynb`:
+
+```bat
+py -m notebook "ML\ML_1_UBER.ipynb"
+```
+
+Open `ML_2_EMAIL_SPAM.ipynb`:
+
+```bat
+py -m notebook "ML\ML_2_EMAIL_SPAM.ipynb"
+```
+
+Open `ML_3_BANK_CHURN.ipynb`:
+
+```bat
+py -m notebook "ML\ML_3_BANK_CHURN.ipynb"
+```
+
+Open `ML_5_DIABETES.ipynb`:
+
+```bat
+py -m notebook "ML\ML_5_DIABETES.ipynb"
+```
+
+Open `ML_6_SALES.ipynb`:
+
+```bat
+py -m notebook "ML\ML_6_SALES.ipynb"
+```
+
+## Run ML notebooks on Ubuntu/Linux
+
+Install Python, pip, and the virtual-environment package:
+
+```bash
+sudo apt update
+```
+
+```bash
+sudo apt install python3 python3-pip python3-venv
+```
+
+Create and activate a virtual environment:
+
+```bash
+python3 -m venv .venv
+```
+
+```bash
+source .venv/bin/activate
+```
+
+Install Jupyter Notebook:
+
+```bash
+python -m pip install notebook
+```
+
+Open `ML_1_UBER.ipynb`:
+
+```bash
+python -m notebook "ML/ML_1_UBER.ipynb"
+```
+
+Open `ML_2_EMAIL_SPAM.ipynb`:
+
+```bash
+python -m notebook "ML/ML_2_EMAIL_SPAM.ipynb"
+```
+
+Open `ML_3_BANK_CHURN.ipynb`:
+
+```bash
+python -m notebook "ML/ML_3_BANK_CHURN.ipynb"
+```
+
+Open `ML_5_DIABETES.ipynb`:
+
+```bash
+python -m notebook "ML/ML_5_DIABETES.ipynb"
+```
+
+Open `ML_6_SALES.ipynb`:
+
+```bash
+python -m notebook "ML/ML_6_SALES.ipynb"
 ```
 
 ## BT Solidity programs
