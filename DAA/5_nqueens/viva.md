@@ -1,189 +1,267 @@
 # N-Queens Problem - DAA Viva Preparation
 
-## Program Objective
+## Problem Statement
 
-Place `n` queens on an `n x n` chessboard so that no two queens attack each
-other. The Python and C++ programs use backtracking and generate all valid
-solutions.
+Design an `n x n` N-Queens matrix with the first queen already placed.
+The position of the first queen is given as input. Use backtracking to place
+the remaining queens and generate every valid final matrix.
 
-## Top 20 Viva Questions and Answers
+No two queens may share:
+
+- a row
+- a column
+- a diagonal
+
+## Program Overview
+
+The C++ program:
+
+1. Reads the number of queens, `n`.
+2. Reads the first queen's row and column using 1-based positions.
+3. Keeps that queen fixed during the search.
+4. Places one queen in each remaining row using backtracking.
+5. Prints every complete valid matrix and the total number of solutions.
+
+The program stores only the column of the queen in each row:
+
+```cpp
+vector<int> queenColumn(n);
+```
+
+For example, `queenColumn[2] = 4` means that the queen in row `2` is in
+column `4` using zero-based indexing.
+
+## Important Functions
+
+### `safe()`
+
+```cpp
+bool safe(int row, int col, const vector<int>& queenColumn)
+```
+
+This checks whether a queen can be placed at `(row, col)`.
+
+Two queens conflict when:
+
+```cpp
+queenColumn[r] == col
+```
+
+They are in the same column, or when:
+
+```cpp
+abs(queenColumn[r] - col) == row - r
+```
+
+They are on the same diagonal.
+
+The `abs()` function is provided by `<cstdlib>`.
+
+### `solve()`
+
+```cpp
+void solve(int row, int n, int fixedRow, int fixedCol,
+           vector<int>& queenColumn, int& solutions)
+```
+
+This function:
+
+- tries columns for the current row
+- skips every column except the input column when it reaches `fixedRow`
+- places a queen only when `safe()` returns `true`
+- recursively solves the next row
+- prints the matrix when all rows are complete
+
+The first queen is not moved because of this condition:
+
+```cpp
+if (row == fixedRow && col != fixedCol)
+    continue;
+```
+
+## Top Viva Questions and Answers
 
 ### 1. What is the N-Queens problem?
 
 It is the problem of placing `n` queens on an `n x n` chessboard so that no
-two queens share the same row, column, or diagonal.
+two queens attack each other.
 
-### 2. Why is backtracking used?
+### 2. What is the specific requirement of this program?
 
-Backtracking builds a solution one row at a time. When a partial placement
-cannot lead to a valid solution, it removes the last queen and tries another
-column.
+The first queen is placed at an input row and column. The program uses
+backtracking to place the remaining queens and prints all valid matrices.
 
-### 3. What is the basic strategy of the program?
+### 3. Why is backtracking used?
 
-For each row, try every column. If a column is safe, place a queen and
-recursively solve the next row. After returning, remove the queen so the next
-choice can be tested.
+Backtracking builds a solution step by step. If a partial placement cannot
+lead to a valid solution, the algorithm abandons that choice and tries
+another column.
 
-### 4. Why is one queen placed per row?
+### 4. Why is one queen considered per row?
 
-The algorithm selects exactly one position in each row. This automatically
-prevents two queens from sharing a row.
+The algorithm processes one row at a time, so at most one queen is placed in
+each row. This automatically prevents row conflicts.
 
-### 5. How are column conflicts checked?
+### 5. How is the first queen kept fixed?
 
-The `cols` set in Python and the `columns` vector in C++ record columns that
-already contain queens. A candidate is rejected if its column is occupied.
+The first queen's row and column are read from input. When the recursion
+reaches that row, all other columns are skipped.
 
-### 6. How are diagonal conflicts detected?
+### 6. How are column conflicts checked?
 
-For a cell `(row, column)`:
+The `queenColumn` vector stores the column used by every previously placed
+queen. A candidate is rejected if its column is already present.
 
-- Cells on the same descending diagonal have the same `row - column`.
-- Cells on the same ascending diagonal have the same `row + column`.
+### 7. How are diagonal conflicts checked?
 
-The programs track both values.
-
-### 7. Why is `row - column` shifted in the C++ program?
-
-`row - column` can be negative. Adding `n - 1` converts it into an array
-index from `0` to `2n - 2`:
+Two queens are on the same diagonal when the difference between their columns
+equals the difference between their rows:
 
 ```cpp
-int firstDiagonal = row - col + n - 1;
+abs(queenColumn[r] - col) == row - r
 ```
 
-### 8. What is the base case?
+### 8. Why does `safe()` check only previous rows?
 
-When `row == n`, all rows contain a safely placed queen. The current board is
-therefore a complete solution and is stored.
+Rows are processed from top to bottom. Future rows do not contain queens yet,
+so only already placed queens can conflict with the current candidate.
 
-### 9. What happens during backtracking?
+### 9. What is the base case?
 
-The queen is removed from the board and its column and diagonal markers are
-cleared. This restores the state before the choice was made.
+When `row == n`, every row has a queen. The matrix is complete and is printed
+as one valid solution.
 
-### 10. What is the time complexity?
+### 10. What happens during backtracking?
 
-The worst-case time complexity is commonly stated as `O(n!)`, because the
-algorithm explores permutations of column placements. Safety checks reduce
-the practical search, but the problem remains exponential.
+After a recursive call returns, the loop tries another column for the current
+row. The next recursive attempt overwrites the previous column choice.
 
-### 11. What is the space complexity?
+### 11. Why is a board matrix not stored?
 
-The auxiliary tracking structures and recursion stack require `O(n)` space.
-Because these programs store every board, the total space can be `O(S * n^2)`,
-where `S` is the number of solutions.
+The program stores only queen columns and prints each solution immediately.
+This reduces memory usage compared with storing every complete matrix.
 
-### 12. What is the difference between auxiliary space and total space here?
+### 12. What does `Q` represent?
 
-Auxiliary space excludes the stored output and is `O(n)`. Total space includes
-all saved solutions and can be much larger.
+`Q` represents a queen and `.` represents an empty cell. The output loop
+prints `Q` when the current column matches `queenColumn[r]`.
 
-### 13. Why can no solution exist for `n = 2` or `n = 3`?
+### 13. What input validation is performed?
 
-It is impossible to place all queens without a conflict for those board sizes.
-Therefore, the program correctly returns zero solutions.
+The program checks that:
 
-### 14. How many solutions exist for `n = 1` and `n = 4`?
+- `n` is positive
+- the first queen's row is between `1` and `n`
+- the first queen's column is between `1` and `n`
 
-There is one solution for `n = 1` and two solutions for `n = 4`.
+Invalid input causes an error message and program termination.
 
-### 15. What is the purpose of the board representation?
+### 14. Why are input positions 1-based?
 
-Each board row is a string containing `.` for an empty cell and `Q` for a
-queen. This makes the solutions easy to print.
+Users normally number rows and columns starting from `1`. The program
+converts them to zero-based indexes using `row - 1` and `col - 1`.
 
-### 16. Why are all solutions stored?
+### 15. What happens if the fixed queen cannot lead to a solution?
 
-The requirement is to generate all valid boards, not only the first one.
-Whenever the base case is reached, a copy of the current board is stored.
+The program prints no solution matrix and reports:
 
-### 17. What would change if only one solution were required?
+```text
+Total solutions: 0
+```
 
-The search could stop and return immediately after the first complete board.
-There would be no need to store a vector of all solutions.
+The input position itself can be valid while still making a complete
+N-Queens solution impossible.
 
-### 18. What is the role of recursion in this solution?
+### 16. What are the results for small values of `n`?
 
-Each recursive call represents the decision for one row. The call stack keeps
-the previous row choices until the algorithm either finds a solution or
-backtracks.
+- `n = 1`: one solution for the only valid position
+- `n = 2`: no solutions
+- `n = 3`: no solutions
+- `n = 4`: normally two solutions, but a fixed first queen may reduce this
+  number
 
-### 19. What input validation is performed?
+### 17. What is the time complexity?
 
-Both programs require the number of queens to be a positive integer. Invalid
-input is rejected instead of creating an invalid board.
+The backtracking search has factorial/exponential worst-case behavior,
+commonly expressed as `O(n!)`. Each safety check scans previous rows, so a
+more detailed upper-bound description is `O(n * n!)`.
 
-### 20. What is the main advantage of backtracking over brute force?
+### 18. What is the auxiliary space complexity?
 
-Brute force can examine every possible board arrangement. Backtracking
-rejects unsafe partial arrangements early, avoiding many unnecessary
-possibilities.
+The `queenColumn` vector and recursion stack both use `O(n)` space. The
+program does not store all solution matrices.
 
-## Additional Relevant Questions
+### 19. What is the purpose of the `solutions` variable?
 
-### 21. Is N-Queens an optimization problem?
+It counts complete valid matrices. It is passed by reference so recursive
+calls update the same counter.
 
-The usual N-Queens problem is a constraint-satisfaction problem: find boards
-that satisfy all constraints. It can be changed into an optimization problem
-if an objective is added.
+### 20. What is the state-space tree?
 
-### 22. What is a promising node?
+Each level represents a row. Each branch represents a possible column for the
+queen in that row. A path reaching level `n` represents a complete solution.
 
-A partial board is promising if no two queens placed so far attack each other.
-Only promising nodes are expanded.
+### 21. What is a promising position?
 
-### 23. What is the state-space tree?
+A position is promising when the new queen does not conflict with any queen
+already placed in an earlier row.
 
-Each level represents a row, and each branch represents a column choice for
-that row. A path from the root to level `n` represents a complete board.
+### 22. Why does backtracking improve over brute force?
 
-### 24. Why is a set useful in the Python version?
+Brute force would generate many complete boards before checking them.
+Backtracking rejects unsafe partial boards early.
 
-Membership checks and insertions are average `O(1)`. The sets make it quick to
-test whether a column or diagonal is already occupied.
+### 23. What happens if the first queen is placed in a different position?
 
-### 25. Why does the C++ version use `vector<bool>`?
+The same algorithm can be run with another row and column. The result may
+contain a different number of valid solutions, including zero.
 
-It stores the occupied-column and occupied-diagonal flags compactly and
-provides direct indexed access for constant-time checks.
+### 24. Is N-Queens an optimization problem?
 
-### 26. What happens when `n = 0`?
+No. The usual N-Queens problem is a constraint-satisfaction problem because
+the goal is to find arrangements satisfying all constraints.
 
-The programs reject it because the intended input is a positive number of
-queens. This also avoids treating an empty board as a complete solution.
+### 25. Can the program stop after finding one solution?
 
-### 27. Can symmetry reduce the search?
+Yes. The recursive function could return a boolean and stop after the first
+complete matrix. The current program continues so that it can generate all
+valid matrices.
 
-Yes. The first queen can be restricted to part of the first row, and mirrored
-solutions can be generated afterward. This reduces work but is not required
-for the basic implementation.
+## Example
 
-### 28. Can the algorithm be implemented without storing boards?
+For:
 
-Yes. It can print each solution immediately or count solutions only. That
-reduces output storage, although printing still takes output time.
+```text
+n = 4
+first queen row = 1
+first queen column = 2
+```
 
-### 29. How is the C++ program different from the Python program?
+The output is:
 
-Both use the same backtracking logic and diagonal formulas. The C++ version
-uses arrays of boolean flags and vectors, while the Python version uses sets.
+```text
+.Q..
+...Q
+Q...
+..Q.
+```
 
-### 30. What is the output for `n = 4`?
+The total is:
 
-The program reports two solutions. Each solution has exactly one `Q` in every
-row and column, with no queens sharing a diagonal.
+```text
+Total solutions: 1
+```
 
-## Quick Exam Revision
+## Quick Revision
 
-- One queen per row prevents row conflicts.
-- Track columns using `cols` or `columns`.
-- Track diagonals using `row - column` and `row + column`.
-- Base case: `row == n`.
-- Backtrack by undoing every placement and marker.
-- Worst-case time: commonly `O(n!)`.
-- Auxiliary space: `O(n)`.
-- Storing all boards requires additional output space.
-- `n = 1` has one solution; `n = 2` and `n = 3` have none.
-- `n = 4` has two solutions.
+- First queen position is input.
+- Positions entered by the user are 1-based.
+- Internally, indexes are zero-based.
+- One row is processed at a time.
+- `safe()` checks columns and diagonals.
+- `solve()` performs recursive backtracking.
+- The fixed queen cannot be moved.
+- `row == n` means a complete solution.
+- Solutions are printed immediately, not stored.
+- Auxiliary space is `O(n)`.
+- Worst-case search is factorial/exponential.

@@ -1,60 +1,53 @@
 #include <iostream>
-#include <string>
 #include <vector>
+#include <cstdlib>
 using namespace std;
 
-void solve(int row, int n, vector<string>& board, vector<bool>& columns,
-           vector<bool>& diagonal1, vector<bool>& diagonal2,
-           vector<vector<string>>& solutions) {
+bool safe(int row, int col, const vector<int>& queenColumn) {
+    for (int r = 0; r < row; ++r)
+        if (queenColumn[r] == col || abs(queenColumn[r] - col) == row - r)
+            return false;
+    return true;
+}
+
+void solve(int row, int n, int fixedRow, int fixedCol,
+           vector<int>& queenColumn, int& solutions) {
     if (row == n) {
-        solutions.push_back(board);
+        cout << "\nSolution " << ++solutions << ":\n";
+        for (int r = 0; r < n; ++r) {
+            for (int c = 0; c < n; ++c)
+                cout << (queenColumn[r] == c ? 'Q' : '.');
+            cout << '\n';
+        }
         return;
     }
 
     for (int col = 0; col < n; ++col) {
-        int firstDiagonal = row - col + n - 1;
-        int secondDiagonal = row + col;
-        if (columns[col] || diagonal1[firstDiagonal] || diagonal2[secondDiagonal]) {
+        if (row == fixedRow && col != fixedCol)
             continue;
+        if (safe(row, col, queenColumn)) {
+            queenColumn[row] = col;
+            solve(row + 1, n, fixedRow, fixedCol, queenColumn, solutions);
         }
-
-        board[row][col] = 'Q';
-        columns[col] = true;
-        diagonal1[firstDiagonal] = true;
-        diagonal2[secondDiagonal] = true;
-
-        solve(row + 1, n, board, columns, diagonal1, diagonal2, solutions);
-
-        board[row][col] = '.';
-        columns[col] = false;
-        diagonal1[firstDiagonal] = false;
-        diagonal2[secondDiagonal] = false;
     }
 }
 
 int main() {
-    int n;
+    int n, row, col;
     cout << "Enter the number of queens: ";
     if (!(cin >> n) || n < 1) {
         cerr << "The number of queens must be a positive integer.\n";
         return 1;
     }
 
-    vector<string> board(n, string(n, '.'));
-    vector<bool> columns(n, false);
-    vector<bool> diagonal1(2 * n - 1, false);
-    vector<bool> diagonal2(2 * n - 1, false);
-    vector<vector<string>> solutions;
-
-    solve(0, n, board, columns, diagonal1, diagonal2, solutions);
-
-    cout << "Total solutions: " << solutions.size() << "\n";
-    for (size_t i = 0; i < solutions.size(); ++i) {
-        cout << "\nSolution " << i + 1 << ":\n";
-        for (const string& row : solutions[i]) {
-            cout << row << '\n';
-        }
+    cout << "Enter the first queen's row and column (1-" << n << "): ";
+    if (!(cin >> row >> col) || row < 1 || row > n || col < 1 || col > n) {
+        cerr << "The queen position must be within the matrix.\n";
+        return 1;
     }
 
-    return 0;
+    vector<int> queenColumn(n);
+    int solutions = 0;
+    solve(0, n, row - 1, col - 1, queenColumn, solutions);
+    cout << "\nTotal solutions: " << solutions << '\n';
 }

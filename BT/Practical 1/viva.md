@@ -10,67 +10,109 @@ and interact with decentralized applications (dApps).
 It provides an Ethereum wallet and allows us to approve, sign, and view blockchain
 transactions from a browser.
 
-### 3. What is a cryptocurrency wallet?
+### 3. What is a blockchain?
+A blockchain is a distributed digital ledger that records transactions in blocks
+linked together using cryptography. Copies of the ledger are maintained by multiple
+network participants, making the recorded history difficult to alter.
+
+### 4. What is a cryptocurrency?
+A cryptocurrency is a digital asset that uses cryptography and a blockchain or
+distributed ledger to record ownership and transactions. It can be transferred
+electronically without relying on a traditional central bank.
+
+### 5. What is Bitcoin?
+Bitcoin is the first widely adopted decentralized cryptocurrency. It runs on its
+own public blockchain and is primarily used for peer-to-peer value transfer. Its
+native currency is called bitcoin and is represented by `BTC`.
+
+### 6. What is Ethereum?
+Ethereum is a public blockchain platform that supports cryptocurrency transfers,
+smart contracts, and decentralized applications. Its native cryptocurrency is
+Ether (`ETH`).
+
+### 7. What is a cryptocurrency wallet?
 A wallet is an application that manages blockchain accounts and their cryptographic
 keys. It does not store coins physically; it signs transactions for an account.
 
-### 4. What is a public address?
+### 8. What is a public address?
 A public address identifies an account on the blockchain. It may be shared to receive
 funds, but it does not reveal the account's private key.
 
-### 5. What is a private key or Secret Recovery Phrase?
+### 9. What is a private key or Secret Recovery Phrase?
 It is the secret used to control and recover an account. It must never be shared or
 entered into an untrusted website.
 
-### 6. What is Ether?
+### 10. What is Ether (ETH)?
 Ether (ETH) is Ethereum's native cryptocurrency. It is used to transfer value and pay
 transaction fees.
 
-### 7. What is a gas fee?
+### 11. What is the difference between Ether and Ethereum?
+Ethereum is the blockchain platform and network. Ether (`ETH`) is the native
+cryptocurrency used on that network to transfer value and pay transaction fees.
+
+### 12. What is a gas fee?
 Gas is the computational work required to execute an Ethereum transaction. The gas fee
 is paid in ETH and generally depends on the work required and network demand.
 
-### 8. Why are transaction fees required?
+### 13. Why are transaction fees required?
 Fees compensate validators for processing and securing transactions and help prevent
 network abuse.
 
-### 9. What is a test network?
-A test network is a blockchain network used for development and learning. Its tokens
-are intended to have no real monetary value.
+### 14. What is a test network?
+A test network, or testnet, is a blockchain network used for development, learning,
+and testing before deploying to a production network. Testnet tokens are supplied
+for testing and are intended to have no real monetary value.
 
-### 10. What is Rinkeby?
+### 15. What is Sepolia?
+Sepolia is a currently supported Ethereum test network used to deploy and test smart
+contracts without spending real ETH. Test ETH can be obtained from a Sepolia faucet.
+
+### 16. What was Rinkeby?
 Rinkeby was an Ethereum test network, but it has been deprecated. Use a currently
 supported test network such as Sepolia when performing this practical.
 
-### 11. What is Remix IDE?
+### 17. Does Hyperledger Fabric have a built-in currency?
+No. Hyperledger Fabric is a permissioned enterprise blockchain and does not have a
+built-in native cryptocurrency, Ether, Bitcoin, or gas fee. Organizations pay the
+operational costs of running the network, such as servers and Docker containers.
+Fabric chaincode can implement a business asset or token if the application requires
+one, but that token is defined by the application rather than by Fabric itself.
+
+### 18. What is the difference between Ethereum and Hyperledger Fabric?
+Ethereum is generally a public blockchain that uses accounts, validators, and ETH
+for gas. Hyperledger Fabric is a permissioned network with known organizations,
+peers, channels, ordering, and endorsement policies. Fabric does not require a
+native cryptocurrency for transactions.
+
+### 19. What is Remix IDE?
 Remix is a browser-based IDE used to write, compile, deploy, and interact with Solidity
 smart contracts.
 
-### 12. What is Solidity?
+### 20. What is Solidity?
 Solidity is a programming language for writing smart contracts that run on
 Ethereum-compatible blockchains.
 
-### 13. What is a smart contract?
+### 21. What is a smart contract?
 A smart contract is a program deployed on a blockchain. Its functions execute according
 to its code when a transaction or call invokes them.
 
-### 14. What happens when a contract is deployed?
+### 22. What happens when a contract is deployed?
 The contract code is compiled into bytecode and submitted in a blockchain transaction.
 After confirmation, the contract receives an address and can be called.
 
-### 15. What is the difference between a transaction and a read-only call?
+### 23. What is the difference between a transaction and a read-only call?
 A transaction changes blockchain state and usually requires a signature and gas fee. A
 read-only call only reads state and normally does not require gas.
 
-### 16. What is the role of MetaMask during deployment?
+### 24. What is the role of MetaMask during deployment?
 MetaMask connects Remix to the selected network, shows the estimated fee, and asks the
 user to approve and sign the deployment transaction.
 
-### 17. How can the transaction cost be studied?
+### 25. How can the transaction cost be studied?
 Record the ETH balance before and after the transaction. The difference is the amount
 spent, subject to any balance changes from other transactions.
 
-### 18. What is the conclusion of this practical?
+### 26. What is the conclusion of this practical?
 MetaMask was installed and used with a test network to study an Ethereum account,
 Ether, smart-contract interaction, and transaction fees.
 

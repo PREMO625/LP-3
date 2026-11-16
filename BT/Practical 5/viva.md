@@ -15,112 +15,123 @@ Hyperledger Fabric is a permissioned, modular blockchain platform designed for
 business networks. Participants are identified by digital certificates rather than
 anonymous public blockchain accounts.
 
-### 4. What is a permissioned blockchain?
+### 4. What is Hyperledger?
+Hyperledger is an open-source umbrella project hosted by the Linux Foundation. It
+contains enterprise-focused distributed-ledger technologies, tools, and libraries,
+including Hyperledger Fabric. Hyperledger itself is not a single blockchain or
+cryptocurrency.
+
+### 5. What is a permissioned blockchain?
 A permissioned blockchain requires participants to be known and authorized. An
 organization's membership service provider controls identities and access.
 
-### 5. What is a peer?
+### 6. What is a peer?
 A peer hosts ledgers and chaincode. It endorses transaction proposals and commits
 validated transactions to its local copy of the ledger.
 
-### 6. What is an ordering service?
+### 7. What is an ordering service?
 The ordering service receives endorsed transactions, establishes their order, and
 creates blocks for the peers to validate and commit.
 
-### 7. What is a channel?
+### 8. What is a ledger?
+A ledger is the record of transactions and data maintained by a blockchain network.
+In Hyperledger Fabric, each channel ledger has two parts: the append-only blockchain
+history and the current world state. The blockchain records the transactions that
+produced changes, while the world state provides an efficient view for reading the
+latest values.
+
+### 9. What is a channel?
 A channel is a private logical communication and ledger partition for selected
 organizations. Transactions on one channel are not automatically visible on another.
 
-### 8. What is chaincode?
-Chaincode is Fabric's term for smart-contract business logic. It reads and changes
-world-state data through the Fabric contract API.
+### 10. What is chaincode?
+Chaincode is Hyperledger Fabric's term for smart-contract business logic. It defines
+the rules and transactions for a business application, such as adding, reading, or
+updating a student. Chaincode reads and changes world-state data through the Fabric
+contract API, and it runs on peers during transaction endorsement.
 
-### 9. What language is used for the chaincode?
+### 11. What language is used for the chaincode?
 This practical uses JavaScript with `fabric-contract-api` and `fabric-shim`.
 Fabric also supports chaincode written in languages such as Go and Java.
 
-### 10. What is world state?
+### 12. What is world state?
 World state is the current database view of all ledger records. The blockchain
 history contains the sequence of transactions that produced those records.
 
-### 11. What is the ledger?
-The ledger consists of the blockchain transaction history and the current world
-state. The history is append-only, while the world state provides efficient reads.
-
-### 12. What is an endorsement?
+### 13. What is an endorsement?
 An endorsement is a signed response from a peer stating that it simulated a
 transaction proposal and produced the expected result.
 
-### 13. What is an endorsement policy?
+### 14. What is an endorsement policy?
 It defines which organizations or peers must endorse a transaction before it can be
 committed. The policy helps ensure that required organizations approve the change.
 
-### 14. What does Docker do in this practical?
+### 15. What does Docker do in this practical?
 Docker runs the Fabric components as isolated containers, including peers, the
 ordering service, certificate authorities, and chaincode containers.
 
-### 15. Why is Bash used?
+### 16. Why is Bash used?
 Bash automates installation, configuration, network startup, chaincode deployment,
 transactions, logging, and cleanup in one repeatable workflow.
 
-### 16. Why does the script use `sudo apt-get update`?
+### 17. Why does the script use `sudo apt-get update`?
 It refreshes the Linux package index before installing required packages. The script
 then installs Docker, Git, curl, jq, and related utilities.
 
-### 17. Is the script compatible with every computer?
+### 18. Is the script compatible with every computer?
 No. It targets Ubuntu/Linux Mint systems with Bash, internet access, sudo
 permissions, Docker support, adequate RAM, and adequate disk space.
 
-### 18. What is the purpose of `AddStudent`?
+### 19. What is the purpose of `AddStudent`?
 It creates a student record and stores it in the ledger using a key based on the
 student's roll number.
 
-### 19. What is the purpose of `ReadStudent`?
+### 20. What is the purpose of `ReadStudent`?
 It retrieves one student record from the ledger using the roll number.
 
-### 20. What is the purpose of `UpdateStudent`?
+### 21. What is the purpose of `UpdateStudent`?
 It replaces the name and course of an existing student record.
 
-### 21. What is the purpose of `GetAllStudents`?
+### 22. What is the purpose of `GetAllStudents`?
 It iterates over the ledger key range used by the student records and returns all
 stored student objects.
 
-### 22. What is a transaction ID?
+### 23. What is a transaction ID?
 A transaction ID uniquely identifies a Fabric transaction. It can be used to connect
 proposal, endorsement, ordering, and commit output.
 
-### 23. Does Fabric use Ethereum gas or Ether?
+### 24. Does Fabric use Ethereum gas or Ether?
 No. This Fabric practical does not use MetaMask, Ether, Ethereum gas, or an Ethereum
 testnet. Fabric nodes use their own permissioned network and transaction process.
 
-### 24. What is the difference between Fabric and Ethereum?
+### 25. What is the difference between Fabric and Ethereum?
 Ethereum is generally a public programmable blockchain using accounts and gas.
 Fabric is a permissioned modular network with known organizations, channels, peers,
 ordering, and endorsement policies.
 
-### 25. What is the difference between Composer and Fabric chaincode?
+### 26. What is the difference between Composer and Fabric chaincode?
 Composer provided a higher-level business-network abstraction with `.cto`, ACL, and
 Composer CLI files. This practical uses Fabric's native chaincode APIs directly.
 
-### 26. What happens when `AddStudent` is invoked?
+### 27. What happens when `AddStudent` is invoked?
 The client sends a proposal to a peer. The peer executes the chaincode simulation,
 returns a proposal response, and the endorsed transaction is sent to the ordering
 service. After validation, peers commit the resulting state.
 
-### 27. What happens if a student already exists?
+### 28. What happens if a student already exists?
 The chaincode checks the ledger key and throws an error. The duplicate transaction
 does not update the existing record.
 
-### 28. What happens if a student does not exist?
+### 29. What happens if a student does not exist?
 `ReadStudent` and `UpdateStudent` throw an error when the requested ledger key has no
 data.
 
-### 29. What is the purpose of the command log?
+### 30. What is the purpose of the command log?
 It provides a persistent record of the commands used during setup and testing. It is
 the authoritative history because child-script commands are not automatically added
 to the parent shell's live history.
 
-### 30. How can the command history be viewed?
+### 31. How can the command history be viewed?
 Read the timestamped files under:
 
 ```text
@@ -130,7 +141,7 @@ Read the timestamped files under:
 Run `history -r` and use the Up Arrow to browse the key commands appended by the
 script.
 
-### 31. What is the conclusion of this practical?
+### 32. What is the conclusion of this practical?
 A modern Hyperledger Fabric test network was created with Docker, native JavaScript
 chaincode was deployed, student records were manipulated, and the transaction
 results were recorded without using deprecated Composer.

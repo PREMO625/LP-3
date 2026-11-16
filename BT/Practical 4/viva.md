@@ -80,8 +80,10 @@ It replaces the structure at an existing index with new values. Because it chang
 storage, calling it requires a transaction and gas.
 
 ### 16. What is a fallback function?
-A fallback function is a special unnamed function that runs when a call does not match
-any declared function. It can receive Ether when declared `payable`.
+A fallback function is a special unnamed entry point that runs when a call does not
+match any declared function. In this practical, a plain Ether transfer reaches the
+fallback because the contract does not define a `receive()` function. It is marked
+`payable`, so it can accept the Ether and execute its logic.
 
 ### 17. Explain the fallback function in this practical.
 
@@ -93,7 +95,9 @@ fallback() external payable {
 ```
 
 It accepts an incoming Ether transfer or an unmatched call, increments the fallback
-counter, and records the sender, amount, and call data in an event.
+counter, and records the sender, amount, and call data in an event. Therefore, the
+fallback demonstrates how a contract handles an incoming transfer that is not sent
+to a named function.
 
 ### 18. What is the difference between `fallback` and `receive`?
 `receive()` is selected for a plain Ether transfer with empty call data. `fallback()`
@@ -113,8 +117,11 @@ Ether transfer would call `receive()` instead of `fallback()`, so the experiment
 would need to be changed.
 
 ### 20. What is `fallbackCallCount`?
-It is a state variable that records how many times the fallback function has been
-executed. Each increment changes blockchain state and costs gas.
+`fallbackCallCount` is a public state variable that counts how many times the
+fallback function has successfully executed. It starts at `0` and increases by `1`
+for every successful fallback call or transfer. It is not the number of students or
+the amount of Ether received; it only counts fallback executions. Because the
+counter is stored on the blockchain, each increment changes state and costs gas.
 
 ### 21. What are events?
 Events are transaction logs emitted by a contract. They allow applications and block
@@ -138,23 +145,28 @@ The Application Binary Interface describes a contract's functions, parameters, r
 values, and events. Remix uses the ABI to create the controls for calling a deployed
 contract.
 
-### 26. What is bytecode?
+### 26. What is the EVM?
+The Ethereum Virtual Machine (EVM) is the runtime environment that executes smart
+contract bytecode on Ethereum and EVM-compatible blockchains. It uses gas to measure
+computation, and the deployed contract code runs as EVM bytecode.
+
+### 27. What is bytecode?
 Bytecode is the compiled EVM instruction sequence deployed to the blockchain. The EVM
 executes it when users call the contract.
 
-### 27. What is a constructor?
+### 28. What is a constructor?
 A constructor runs once during contract deployment. The contract in this practical
 does not require a constructor because its array and counter start with default values.
 
-### 28. Why do `addStudent` and `updateStudent` require gas?
+### 29. Why do `addStudent` and `updateStudent` require gas?
 They modify the `students` array stored on the blockchain. Validators execute and
 record those changes, so the caller pays gas.
 
-### 29. Why do getter functions normally not require gas?
+### 30. Why do getter functions normally not require gas?
 `getStudent`, `getStudentCount`, and `getContractBalance` are read-only calls. Remix
 can execute them without creating a state-changing blockchain transaction.
 
-### 30. How is the transaction fee calculated?
+### 31. How is the transaction fee calculated?
 When gas price is shown in Gwei:
 
 ```text
@@ -164,7 +176,7 @@ Gas used × Gas price (Gwei) ÷ 1,000,000,000
 
 The fee is paid in ETH on Sepolia.
 
-### 31. What is the conclusion of this practical?
+### 32. What is the conclusion of this practical?
 A student registry contract was deployed on Sepolia. Structures and arrays stored
 student data, records were read and updated, the fallback function received Ether,
 and gas usage and transaction fees were observed.

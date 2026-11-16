@@ -1,5 +1,19 @@
 # Quick Sort Analysis - Viva Preparation
 
+## Complexity According to Sorting Technique
+
+| Technique | Best Case | Average/Expected Case | Worst Case | Space |
+|---|---:|---:|---:|---:|
+| Deterministic Quick Sort | `O(n log n)` | `O(n log n)` | `O(n^2)` | `O(log n)` average, `O(n)` worst |
+| Randomized Quick Sort | `O(n log n)` | `O(n log n)` expected | `O(n^2)` | `O(log n)` expected, `O(n)` worst |
+
+- **Deterministic variant:** Always selects the last element as the pivot.
+- **Randomized variant:** Selects a random pivot, so the expected running time
+  remains `O(n log n)` for different input orders.
+- **Partitioning time:** `O(n)` for each recursive subarray.
+- Both techniques sort in-place and use `O(1)` extra array space, excluding
+  recursion stack space.
+
 ## Program Objective
 
 Compare deterministic and randomized versions of Quick Sort. Both programs
@@ -94,8 +108,8 @@ short elapsed intervals with high-resolution timing.
 
 ### 17. How is execution time measured in C++?
 
-The C++ program uses `chrono::high_resolution_clock` and calculates the
-duration between the start and end of each sort.
+The C++ program uses the `clock()` function. The elapsed clock ticks are
+divided by `CLOCKS_PER_SEC` to obtain the time in seconds.
 
 ### 18. Does randomized Quick Sort always run faster?
 
@@ -137,14 +151,14 @@ partitions for arrays containing many duplicates.
 
 ### 23. Why does the randomized partition call the deterministic partition?
 
-Both variants use the same partition algorithm. The only difference is how
-the pivot is chosen; after moving the random pivot to the final position, the
-common partition logic can be reused.
+Both variants use the same `partition()` function. The deterministic version
+uses the last element directly, while the randomized version first swaps a
+random element with the last element.
 
-### 24. What is the role of `mt19937` in the C++ program?
+### 24. What is the role of `rand()` and `srand()` in the C++ program?
 
-`mt19937` is a pseudorandom number generator used to select random pivot
-indexes and generate random array values.
+`srand()` initializes the random-number generator using the current time.
+`rand()` generates the array values and selects a random pivot index.
 
 ### 25. What is the role of `random.randint` in Python?
 

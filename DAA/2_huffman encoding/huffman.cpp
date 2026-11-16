@@ -6,103 +6,91 @@
 #include <vector>
 using namespace std;
 
-// Node of Huffman Tree
 struct Node {
-char ch;
-long long freq;
-Node *left, *right;
-Node(char c, long long f) {
-ch = c;
-freq = f;
-left = right = nullptr;
-}
+    char ch;
+    long long frequency;
+    Node* left;
+    Node* right;
+
+    Node(char c, long long f, Node* l = nullptr, Node* r = nullptr)
+        : ch(c), frequency(f), left(l), right(r) {}
 };
 
-// Comparator for Min Heap
-struct Compare {
-bool operator()(Node* a, Node* b) {
-return a->freq > b->freq;
-}
+struct CompareNodes {
+    bool operator()(Node* a, Node* b) {
+        return a->frequency > b->frequency;
+    }
 };
 
 void deleteTree(Node* root) {
-if (root == nullptr)
-return;
-deleteTree(root->left);
-deleteTree(root->right);
-delete root;
+    if (root == nullptr) return;
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
 }
 
-// Generate Huffman Codes
-void generateCodes(Node* root, string code,
-map<char, string>& huffmanCode) {
-if (root == nullptr)
-return;
+void generateCodes(Node* root, const string& code, map<char, string>& codes) {
+    if (root == nullptr) return;
 
-// Leaf node
-if (root->left == nullptr && root->right == nullptr) {
-huffmanCode[root->ch] = code.empty() ? "0" : code;
-return;
-}
-generateCodes(root->left, code + "0", huffmanCode);
-generateCodes(root->right, code + "1", huffmanCode);
+    if (root->left == nullptr && root->right == nullptr) {
+        codes[root->ch] = code.empty() ? "0" : code;
+        return;
+    }
+
+    generateCodes(root->left, code + "0", codes);
+    generateCodes(root->right, code + "1", codes);
 }
 
 int main() {
-int n;
-cout << "Enter number of characters: ";
-if (!(cin >> n) || n <= 0) {
-cerr << "Number of characters must be a positive integer.\n";
-return 1;
-}
+    int n;
+    cout << "Enter number of characters: ";
+    cin >> n;
 
-priority_queue<Node*, vector<Node*>, Compare> minHeap;
-set<char> characters;
-cout << "Enter character and its frequency:\n";
-for (int i = 0; i < n; i++) {
-char ch;
-long long freq;
-cin >> ch >> freq;
-if (!cin || freq <= 0) {
-cerr << "Each character must have a positive frequency.\n";
-while (!minHeap.empty()) {
-delete minHeap.top();
-minHeap.pop();
-}
-return 1;
-}
-if (!characters.insert(ch).second) {
-cerr << "Duplicate characters are not allowed.\n";
-while (!minHeap.empty()) {
-delete minHeap.top();
-minHeap.pop();
-}
-return 1;
-}
-minHeap.push(new Node(ch, freq));
-}
+    if (!cin || n <= 0) {
+        cout << "Invalid number of characters.\n";
+        return 1;
+    }
 
-// Build Huffman Tree
-while (minHeap.size() > 1) {
-Node* left = minHeap.top();
-minHeap.pop();
-Node* right = minHeap.top();
-minHeap.pop();
-Node* parent = new Node('$', left->freq + right->freq);
+    priority_queue<Node*, vector<Node*>, CompareNodes> minHeap;
+    set<char> characters;
+    cout << "Enter each character and its frequency:\n";
 
-parent->left = left;
-parent->right = right;
-minHeap.push(parent);
-}
+    for (int i = 0; i < n; i++) {
+        char character;
+        long long frequency;
+        cin >> character >> frequency;
 
-Node* root = minHeap.top();
-map<char, string> huffmanCode;
-generateCodes(root, "", huffmanCode);
-cout << "\nHuffman Codes:\n";
-for (auto& pair : huffmanCode) {
-cout << pair.first << " : " << pair.second << endl;
-}
+        if (!cin || frequency <= 0) {
+            cout << "Frequency must be positive.\n";
+            return 1;
+        }
 
-deleteTree(root);
-return 0;
+        if (!characters.insert(character).second) {
+            cout << "Duplicate characters are not allowed.\n";
+            return 1;
+        }
+
+        minHeap.push(new Node(character, frequency));
+    }
+
+    while (minHeap.size() > 1) {
+        Node* first = minHeap.top();
+        minHeap.pop();
+        Node* second = minHeap.top();
+        minHeap.pop();
+
+        minHeap.push(new Node('$', first->frequency + second->frequency,
+                              first, second));
+    }
+
+    Node* root = minHeap.top();
+    map<char, string> codes;
+    generateCodes(root, "", codes);
+
+    cout << "\nHuffman Codes:\n";
+    for (const auto& code : codes)
+        cout << code.first << " : " << code.second << '\n';
+
+    deleteTree(root);
+    return 0;
 }

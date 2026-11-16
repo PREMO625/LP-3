@@ -1,5 +1,12 @@
 # Fibonacci Series - DAA Viva Preparation
 
+**Complexity Summary**
+
+- **Iterative time complexity:** `O(n)`
+- **Iterative space complexity:** `O(n)` for storing the series
+- **Recursive time complexity:** `O(2^n)` commonly
+- **Recursive space complexity:** `O(n)` for the recursion stack and series
+
 ## Program Objective
 
 Generate the first `n` Fibonacci numbers using:

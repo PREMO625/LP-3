@@ -1,5 +1,11 @@
 # 0/1 Knapsack Using Dynamic Programming - Viva Preparation
 
+**Complexity Summary**
+
+- **Time complexity:** `O(n * capacity)`
+- **Space complexity:** `O(n * capacity)`
+- **Algorithm:** Dynamic programming
+
 ## Program Objective
 
 Select items with maximum total profit without exceeding the knapsack

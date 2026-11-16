@@ -1,5 +1,12 @@
 # Huffman Encoding - DAA Viva Preparation
 
+**Complexity Summary**
+
+- **Tree construction time complexity:** `O(n log n)`
+- **Code generation time complexity:** `O(n)`
+- **Overall time complexity:** `O(n log n)`
+- **Space complexity:** `O(n)`
+
 ## Program Objective
 
 Construct a Huffman tree from characters and their frequencies, then generate
@@ -65,7 +72,7 @@ which are required at every greedy step.
 ### 10. What is the role of `priority_queue` in the program?
 
 The C++ `priority_queue` is used as the heap. Since it is a max-heap by
-default, the custom `Compare` comparator reverses the order so that the
+default, the custom `CompareNodes` comparator reverses the order so that the
 smallest frequency appears at the top.
 
 ### 11. What does the comparator do?
@@ -73,7 +80,7 @@ smallest frequency appears at the top.
 The comparator returns:
 
 ```cpp
-return a->freq > b->freq;
+return a->frequency > b->frequency;
 ```
 
 This makes the node with the lower frequency have higher priority in the
@@ -124,7 +131,7 @@ Huffman coding minimizes this weighted average among binary prefix codes.
 Each `Node` stores:
 
 - `ch`: the character for a leaf node.
-- `freq`: the character frequency or combined frequency.
+- `frequency`: the character frequency or combined frequency.
 - `left` and `right`: pointers to child nodes.
 
 Internal nodes use `$` as a placeholder character because they do not
@@ -201,6 +208,125 @@ is required.
 The program rejects it because constructing a Huffman tree requires at least
 one character. It prints an error instead of calling `top()` on an empty
 heap.
+
+### 31. What is the greedy method?
+
+The greedy method is an algorithmic strategy that makes the best available
+choice at each step, hoping that these local choices produce a globally
+optimal solution. It does not usually reconsider a choice after making it.
+
+### 32. Where is the greedy method used?
+
+Greedy algorithms are used when a problem has the greedy-choice property and
+optimal substructure. Common examples include:
+
+- Huffman encoding
+- Kruskal's minimum spanning tree algorithm
+- Prim's minimum spanning tree algorithm
+- Dijkstra's shortest-path algorithm for non-negative edge weights
+- Activity-selection problems
+- Fractional knapsack
+
+### 33. Why is Huffman encoding a greedy algorithm?
+
+At every step, Huffman encoding selects the two nodes with the smallest
+frequencies and combines them. This is the locally best choice because
+infrequent characters should receive longer codes. Repeating this choice
+produces an optimal prefix-code tree.
+
+### 34. What is the structure of the `priority_queue` declaration?
+
+```cpp
+priority_queue<Node*, vector<Node*>, CompareNodes> minHeap;
+```
+
+The three template arguments are:
+
+- `Node*`: the type stored in the queue.
+- `vector<Node*>`: the internal container used to store the elements.
+- `CompareNodes`: the comparison rule used to arrange the elements.
+
+The variable is named `minHeap`. The custom comparator makes the queue behave
+as a min-heap, so `minHeap.top()` returns the node with the smallest
+frequency.
+
+### 35. Why are pointers to `Node` stored in the priority queue?
+
+Huffman tree nodes are dynamically connected to one another. Storing
+`Node*` allows the queue to move references to existing tree nodes instead of
+copying entire subtrees. The child pointers of a combined parent node can
+therefore point to the two nodes removed from the heap.
+
+### 36. Why is a `set` used in the program?
+
+```cpp
+set<char> characters;
+```
+
+The set is used to ensure that every input character is unique. A set stores
+only one copy of each value. It is used here for input validation, not for
+the main Huffman algorithm.
+
+### 37. What does `characters.insert(character).second` mean?
+
+`set::insert` returns a pair:
+
+- `.first`: an iterator pointing to the character.
+- `.second`: `true` if insertion succeeded, or `false` if the character was
+  already present.
+
+Therefore:
+
+```cpp
+if (!characters.insert(character).second)
+```
+
+means: if the character could not be inserted, it is a duplicate.
+
+### 38. What does the `Node` constructor do?
+
+```cpp
+Node(char c, long long f, Node* l = nullptr, Node* r = nullptr)
+    : ch(c), frequency(f), left(l), right(r) {}
+```
+
+It initializes a node's character, frequency, left child, and right child.
+The `nullptr` defaults mean that a new node can initially have no children.
+The part after the colon is a member-initializer list.
+
+### 39. How does the recursive leaf-node check work?
+
+```cpp
+if (root->left == nullptr && root->right == nullptr) {
+    codes[root->ch] = code.empty() ? "0" : code;
+    return;
+}
+```
+
+If both child pointers are `nullptr`, the node is a leaf. Its accumulated
+binary path is stored as the character's code. The conditional expression
+assigns `"0"` when the tree contains only one character and its path is
+otherwise empty. `return` stops recursion for that leaf.
+
+### 40. What is a conditional or ternary operator?
+
+The expression:
+
+```cpp
+code.empty() ? "0" : code
+```
+
+is a short form of:
+
+```cpp
+if (code.empty())
+    codes[root->ch] = "0";
+else
+    codes[root->ch] = code;
+```
+
+The condition before `?` is tested. The value before `:` is selected when it
+is true; the value after `:` is selected when it is false.
 
 ## Example
 

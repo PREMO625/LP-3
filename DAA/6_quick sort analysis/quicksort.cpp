@@ -1,12 +1,17 @@
 #include <algorithm>
-#include <chrono>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
-#include <random>
 #include <vector>
 
 using namespace std;
 
-int deterministicPartition(vector<int>& arr, int low, int high) {
+int partition(vector<int>& arr, int low, int high, bool randomized) {
+    if (randomized) {
+        int randomIndex = low + rand() % (high - low + 1);
+        swap(arr[randomIndex], arr[high]);
+    }
+
     int pivot = arr[high];
     int i = low - 1;
 
@@ -21,37 +26,18 @@ int deterministicPartition(vector<int>& arr, int low, int high) {
     return i + 1;
 }
 
-void deterministicQuickSort(vector<int>& arr, int low, int high) {
+void quickSort(vector<int>& arr, int low, int high, bool randomized) {
     if (low < high) {
-        int pivotIndex = deterministicPartition(arr, low, high);
-        deterministicQuickSort(arr, low, pivotIndex - 1);
-        deterministicQuickSort(arr, pivotIndex + 1, high);
+        int pivotIndex = partition(arr, low, high, randomized);
+        quickSort(arr, low, pivotIndex - 1, randomized);
+        quickSort(arr, pivotIndex + 1, high, randomized);
     }
 }
 
-int randomizedPartition(
-    vector<int>& arr,
-    int low,
-    int high,
-    mt19937& generator
-) {
-    uniform_int_distribution<int> distribution(low, high);
-    int randomIndex = distribution(generator);
-    swap(arr[randomIndex], arr[high]);
-    return deterministicPartition(arr, low, high);
-}
-
-void randomizedQuickSort(
-    vector<int>& arr,
-    int low,
-    int high,
-    mt19937& generator
-) {
-    if (low < high) {
-        int pivotIndex = randomizedPartition(arr, low, high, generator);
-        randomizedQuickSort(arr, low, pivotIndex - 1, generator);
-        randomizedQuickSort(arr, pivotIndex + 1, high, generator);
-    }
+double measure(vector<int>& arr, bool randomized) {
+    clock_t start = clock();
+    quickSort(arr, 0, static_cast<int>(arr.size()) - 1, randomized);
+    return double(clock() - start) / CLOCKS_PER_SEC;
 }
 
 void printArray(const string& label, const vector<int>& arr) {
@@ -70,34 +56,23 @@ int main() {
         return 1;
     }
 
-    random_device device;
-    mt19937 generator(device());
-    uniform_int_distribution<int> valueDistribution(1, 100000);
+    srand(static_cast<unsigned>(time(nullptr)));
     vector<int> original(n);
     for (int& value : original) {
-        value = valueDistribution(generator);
+        value = rand() % 100000 + 1;
     }
 
     vector<int> deterministic = original;
-    auto deterministicStart = chrono::high_resolution_clock::now();
-    deterministicQuickSort(deterministic, 0, n - 1);
-    auto deterministicEnd = chrono::high_resolution_clock::now();
-
     vector<int> randomized = original;
-    auto randomizedStart = chrono::high_resolution_clock::now();
-    randomizedQuickSort(randomized, 0, n - 1, generator);
-    auto randomizedEnd = chrono::high_resolution_clock::now();
+    double deterministicTime = measure(deterministic, false);
+    double randomizedTime = measure(randomized, true);
 
     printArray("\nOriginal array: ", original);
     printArray("\nDeterministic sorted array: ", deterministic);
     printArray("Randomized sorted array: ", randomized);
 
-    chrono::duration<double> deterministicTime =
-        deterministicEnd - deterministicStart;
-    chrono::duration<double> randomizedTime =
-        randomizedEnd - randomizedStart;
-    cout << "Deterministic time: " << deterministicTime.count() << "s\n";
-    cout << "Randomized time: " << randomizedTime.count() << "s\n";
+    cout << "Deterministic time: " << deterministicTime << "s\n";
+    cout << "Randomized time: " << randomizedTime << "s\n";
 
     return 0;
 }
