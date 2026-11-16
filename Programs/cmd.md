@@ -23,9 +23,70 @@ On Windows CMD or PowerShell, download it with `curl.exe`:
 curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.sh" -o "lp3-programs.sh"
 ```
 
+If Bash is unavailable, use the native Windows PowerShell menu:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.ps1" -OutFile "lp3-programs.ps1"
+```
+
+Show PowerShell menu help:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 help
+```
+
+Download one file with the PowerShell menu:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download ml diabetes
+```
+
 Run the following menu commands in Ubuntu/Linux, WSL, or Git Bash. Normal
 Windows CMD and PowerShell can download the file, but cannot run `.sh` scripts
 directly.
+
+### Set up WSL on Windows
+
+Check whether WSL is available:
+
+```bat
+wsl --status
+```
+
+List installed Linux distributions:
+
+```bat
+wsl -l -v
+```
+
+If Ubuntu is not installed, open PowerShell as Administrator:
+
+```bat
+wsl --install -d Ubuntu
+```
+
+Restart Windows if requested. On the first Ubuntu launch, create a Linux
+username and password.
+
+From Windows CMD, run the downloaded menu script through WSL:
+
+```bat
+wsl bash lp3-programs.sh help
+```
+
+Download one selected program through WSL:
+
+```bat
+wsl bash lp3-programs.sh download daa quicksort
+```
+
+Run the Fabric script through WSL:
+
+```bat
+wsl bash BT/setup-fabric.sh
+```
+
+Fabric should run inside Ubuntu/WSL with Docker available.
 
 Make it executable:
 

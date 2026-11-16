@@ -55,6 +55,22 @@ curl.exe -fL "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-
 The `.sh` file cannot run directly in normal Windows CMD or PowerShell. Use
 Ubuntu/Linux, WSL, or Git Bash for the next steps.
 
+Windows users who do not have Bash can use the native PowerShell menu instead:
+
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PREMO625/LP-3/main/Programs/lp3-programs.ps1" -OutFile "lp3-programs.ps1"
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 help
+```
+
+Download a selected program:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\lp3-programs.ps1 download ml diabetes
+```
+
 ### 2. Make it executable
 
 ```bash
@@ -248,12 +264,57 @@ The complete one-by-one command reference is in
 
 For Windows, choose one of these:
 
-1. Use the individual `curl.exe` or PowerShell commands in
+1. Use the native `lp3-programs.ps1` menu.
+2. Use the individual `curl.exe` or PowerShell commands in
    [`Programs/cmd.md`](./Programs/cmd.md).
-2. Use `lp3-programs.sh` through WSL or Git Bash.
+3. Use `lp3-programs.sh` through WSL or Git Bash.
 
 Windows CMD and PowerShell can download every file, but they do not execute the
-Bash menu script natively.
+Bash menu script natively. The PowerShell menu works without Bash.
+
+## Windows WSL setup
+
+WSL is the easiest way to run the Bash menu from Windows CMD.
+
+Check whether WSL is installed:
+
+```bat
+wsl --status
+```
+
+List installed Linux distributions:
+
+```bat
+wsl -l -v
+```
+
+If Ubuntu is not installed, open **PowerShell as Administrator** and run:
+
+```bat
+wsl --install -d Ubuntu
+```
+
+Restart Windows if requested. On the first Ubuntu launch, create a Linux
+username and password.
+
+From Windows CMD, run the downloaded menu script with:
+
+```bat
+wsl bash lp3-programs.sh help
+```
+
+Download a selected program:
+
+```bat
+wsl bash lp3-programs.sh download ml diabetes
+```
+
+For the Fabric script, run it inside Ubuntu/WSL because it needs Linux and
+Docker:
+
+```bat
+wsl bash BT/setup-fabric.sh
+```
 
 ### BT Solidity
 
